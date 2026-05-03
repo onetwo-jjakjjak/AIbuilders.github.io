@@ -1168,6 +1168,14 @@ body {
 .comment-item .comment-date { font-size: 11px; color: var(--text-muted); }
 .comment-item .comment-text { font-size: 14px; white-space: pre-wrap; word-break: break-word; }
 .comment-empty { color: var(--text-muted); font-size: 13px; padding: 12px 16px; background: var(--bg-card); border-radius: 8px; }
+
+/* Monthly schedule and curriculum integration */
+#curriculum { display: none !important; }
+#schedule .course-detail { margin: 0; border-left: 0; border-right: 0; border-bottom: 0; border-radius: 0 0 16px 16px; }
+#schedule .course-detail .day-content > div[style*='font-size: 13px'] { display: none !important; }
+#schedule .course-detail .day-content { padding-top: 4px; }
+#schedule .course-detail .day-tabs { padding-top: 0; }
+
 .comment-status { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
 
 </style>
@@ -1205,7 +1213,7 @@ body {
     <div class="info-grid">
       <div class="info-item full">
         <div class="info-label">교육 시간</div>
-        <div class="info-value">08:30 ~ 17:30 (8시간)</div>
+        <div class="info-value">8:30 ~ 17:30 (8시간)</div>
       </div>
       <div class="info-item full">
         <div class="info-label">교육 장소</div>
@@ -1215,7 +1223,7 @@ body {
       <div class="info-item full">
         <div class="info-label">수강신청 링크</div>
         <div class="info-value" style="font-size: 12px;">
-          <a href="https://samsungcnt-edu.elice.io/lxp" style="color: var(--accent-blue); text-decoration: none; word-break: break-all;">
+          <a href="https://samsungcnt-edu.elice.io/notices/3903" style="color: var(--accent-blue); text-decoration: none; word-break: break-all;">
             samsungcnt-edu.elice.io/notices/3903
           </a>
         </div>
@@ -1241,7 +1249,7 @@ body {
       <div class="roadmap-arrow">▸</div>
       <div class="roadmap-step c2">
         <div class="roadmap-num">②</div>
-        <div class="roadmap-label">파이썬<br> </div>
+        <div class="roadmap-label">파이썬</div>
       </div>
       <div class="roadmap-arrow">▸</div>
       <div class="roadmap-step c3">
@@ -1251,12 +1259,12 @@ body {
       <div class="roadmap-arrow">▸</div>
       <div class="roadmap-step c4">
         <div class="roadmap-num">④</div>
-        <div class="roadmap-label">머신러닝<br> </div>
+        <div class="roadmap-label">머신러닝</div>
       </div>
       <div class="roadmap-arrow">▸</div>
       <div class="roadmap-step c5">
         <div class="roadmap-num">⑤</div>
-        <div class="roadmap-label">AI Agent<br> </div>
+        <div class="roadmap-label">AI Agent</div>
       </div>
     </div>
   </div>
@@ -2007,7 +2015,52 @@ window.addEventListener('scroll', () => {
   navPills.forEach((pill, i) => pill.classList.toggle('active', i === current));
 });
 
-});
+
+// Initialize monthly curriculum day tabs
+function setupMonthlyCurriculumTabs() {
+  document.querySelectorAll('#schedule .schedule-card').forEach((card) => {
+    const detail = card.querySelector('.course-detail');
+    if (!detail) return;
+    const contents = Array.from(detail.querySelectorAll(':scope > .day-content'));
+    if (!contents.length) return;
+
+    // Create Day tabs only if they are not already present
+    let tabs = detail.querySelector(':scope > .day-tabs');
+    if (!tabs) {
+      tabs = document.createElement('div');
+      tabs.className = 'day-tabs';
+      contents.forEach((_, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'day-tab' + (idx === 0 ? ' active' : '');
+        btn.textContent = 'Day ' + (idx + 1);
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          switchScheduleDay(card.id, idx);
+        });
+        tabs.appendChild(btn);
+      });
+      detail.insertBefore(tabs, contents[0]);
+    }
+
+    contents.forEach((content, idx) => {
+      content.classList.toggle('active', idx === 0);
+    });
+  });
+}
+
+function switchScheduleDay(scheduleId, dayIdx) {
+  const card = document.getElementById(scheduleId);
+  if (!card) return;
+  const detail = card.querySelector('.course-detail');
+  if (!detail) return;
+  const tabs = Array.from(detail.querySelectorAll(':scope > .day-tabs .day-tab'));
+  const contents = Array.from(detail.querySelectorAll(':scope > .day-content'));
+  tabs.forEach((tab, idx) => tab.classList.toggle('active', idx === dayIdx));
+  contents.forEach((content, idx) => content.classList.toggle('active', idx === dayIdx));
+}
+
+setupMonthlyCurriculumTabs();
 </script>
 
 
