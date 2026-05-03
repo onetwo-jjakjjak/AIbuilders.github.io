@@ -1158,7 +1158,7 @@ body {
 .time-block.lunch { display: none !important; }
 
 /* Comment form elements */
-.comment-form input[type="text"] { width: 100%; border: 1px solid var(--line-color); border-radius: 8px; padding: 8px; margin-bottom: 8px; font-size: 14px; }
+.comment-form input[type="text"], .comment-form input[type="password"] { width: 100%; border: 1px solid var(--line-color); border-radius: 8px; padding: 8px; margin-bottom: 8px; font-size: 14px; }
 .comment-form textarea { width: 100%; min-height: 80px; border: 1px solid var(--line-color); border-radius: 8px; padding: 8px; resize: vertical; font-size: 14px; margin-bottom: 8px; }
 .comment-form button { background: var(--accent-orange); color: #fff; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; }
 .comment-form button:disabled { background: var(--text-muted); cursor: not-allowed; }
@@ -1168,6 +1168,10 @@ body {
 .comment-item .comment-author { font-weight: 600; margin-right: 8px; }
 .comment-item .comment-date { font-size: 11px; color: var(--text-muted); }
 .comment-item .comment-text { font-size: 14px; white-space: pre-wrap; word-break: break-word; }
+.comment-actions { display: flex; gap: 6px; margin-left: 8px; flex-shrink: 0; }
+.comment-action-btn { background: rgba(74,124,255,0.08); border: 1px solid var(--border); color: var(--text-secondary); padding: 3px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+.comment-action-btn:active { background: rgba(74,124,255,0.18); }
+.comment-help { color: var(--text-muted); font-size: 11px; line-height: 1.5; margin: 4px 0 10px; }
 .comment-empty { color: var(--text-muted); font-size: 13px; padding: 12px 16px; background: var(--bg-card); border-radius: 8px; }
 
 /* Monthly schedule and curriculum integration */
@@ -1938,6 +1942,8 @@ body {
     <div class="comment-form">
       <input type="text" id="commentAuthor" placeholder="작성자" maxlength="20">
       <textarea id="commentContent" placeholder="내용을 입력하세요" maxlength="300"></textarea>
+      <input type="password" id="commentPassword" placeholder="수정/삭제용 비밀번호" maxlength="30">
+      <div class="comment-help">작성 시 입력한 비밀번호로 나중에 본인 댓글을 수정하거나 삭제할 수 있습니다.</div>
       <button onclick="addComment()">댓글 남기기</button>
       <div class="comment-status" id="commentStatus"> </div>
     </div>
@@ -2073,7 +2079,9 @@ import {
   getDatabase,
   ref,
   push,
-  onValue
+  onValue,
+  update,
+  remove
 } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -2090,9 +2098,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const commentsRef = ref(db, "comments");
+let commentCache = {};
 
 const authorInput = () => document.getElementById("commentAuthor");
 const contentInput = () => document.getElementById("commentContent");
+const passwordInput = () => document.getElementById("commentPassword");
 const commentList = () => document.getElementById("commentList");
 const commentStatus = () => document.getElementById("commentStatus");
 
@@ -2114,12 +2124,21 @@ function formatDate(ts) {
   }
 }
 
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
 function renderComments(snapshot) {
   const listEl = commentList();
   if (!listEl) return;
 
   const data = snapshot.val();
   listEl.innerHTML = "";
+  commentCache = {};
 
   if (!data) {
     const empty = document.createElement("div");
@@ -2128,6 +2147,8 @@ function renderComments(snapshot) {
     listEl.appendChild(empty);
     return;
   }
+
+  commentCache = data;
 
   const comments = Object.entries(data)
     .map(([id, value]) => ({ id, ...value }))
@@ -2142,16 +2163,39 @@ function renderComments(snapshot) {
     const header = document.createElement("div");
     header.className = "comment-header";
 
+    const meta = document.createElement("div");
     const authorEl = document.createElement("span");
     authorEl.className = "comment-author";
     authorEl.textContent = comment.author || "익명";
 
     const dateEl = document.createElement("span");
     dateEl.className = "comment-date";
-    dateEl.textContent = formatDate(comment.createdAt);
+    const editedText = comment.updatedAt && comment.updatedAt !== comment.createdAt ? " · 수정됨" : "";
+    dateEl.textContent = `${formatDate(comment.createdAt)}${editedText}`;
 
-    header.appendChild(authorEl);
-    header.appendChild(dateEl);
+    meta.appendChild(authorEl);
+    meta.appendChild(dateEl);
+
+    const actions = document.createElement("div");
+    actions.className = "comment-actions";
+
+    const editBtn = document.createElement("button");
+    editBtn.type = "button";
+    editBtn.className = "comment-action-btn";
+    editBtn.textContent = "수정";
+    editBtn.onclick = () => editComment(comment.id);
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.className = "comment-action-btn";
+    deleteBtn.textContent = "삭제";
+    deleteBtn.onclick = () => deleteComment(comment.id);
+
+    actions.appendChild(editBtn);
+    actions.appendChild(deleteBtn);
+
+    header.appendChild(meta);
+    header.appendChild(actions);
 
     const textEl = document.createElement("div");
     textEl.className = "comment-text";
@@ -2166,8 +2210,10 @@ function renderComments(snapshot) {
 window.addComment = async function () {
   const authorEl = authorInput();
   const textEl = contentInput();
+  const passwordEl = passwordInput();
   const author = authorEl ? authorEl.value.trim() : "";
   const text = textEl ? textEl.value.trim() : "";
+  const password = passwordEl ? passwordEl.value.trim() : "";
 
   if (!author) {
     alert("작성자를 입력해주세요.");
@@ -2181,6 +2227,12 @@ window.addComment = async function () {
     return;
   }
 
+  if (!password) {
+    alert("수정/삭제용 비밀번호를 입력해주세요.");
+    passwordEl && passwordEl.focus();
+    return;
+  }
+
   if (author.length > 20) {
     alert("작성자는 20자 이내로 입력해주세요.");
     return;
@@ -2191,21 +2243,113 @@ window.addComment = async function () {
     return;
   }
 
+  if (password.length < 4) {
+    alert("비밀번호는 4자 이상 입력해주세요.");
+    passwordEl && passwordEl.focus();
+    return;
+  }
+
   try {
     setStatus("댓글을 등록하는 중입니다...");
+    const passwordHash = await hashPassword(password);
+    const now = Date.now();
+
     await push(commentsRef, {
       author,
       text,
-      createdAt: Date.now()
+      createdAt: now,
+      updatedAt: now,
+      passwordHash
     });
 
     if (authorEl) authorEl.value = "";
     if (textEl) textEl.value = "";
-    setStatus("댓글이 등록되었습니다. 모든 교육생에게 함께 표시됩니다.");
+    if (passwordEl) passwordEl.value = "";
+    setStatus("댓글이 등록되었습니다. 작성 시 입력한 비밀번호로 수정/삭제할 수 있습니다.");
   } catch (error) {
     console.error(error);
     setStatus("댓글 등록에 실패했습니다. 잠시 후 다시 시도해주세요.");
     alert("댓글 등록에 실패했습니다. Firebase 설정과 보안 규칙을 확인해주세요.");
+  }
+};
+
+window.editComment = async function (commentId) {
+  const comment = commentCache[commentId];
+  if (!comment) {
+    alert("댓글 정보를 찾을 수 없습니다.");
+    return;
+  }
+
+  if (!comment.passwordHash) {
+    alert("이 댓글은 비밀번호 기능 적용 전에 작성되어 페이지에서 직접 수정할 수 없습니다.");
+    return;
+  }
+
+  const password = prompt("댓글 작성 시 입력한 비밀번호를 입력하세요.");
+  if (password === null) return;
+
+  const passwordHash = await hashPassword(password.trim());
+  if (passwordHash !== comment.passwordHash) {
+    alert("비밀번호가 일치하지 않습니다.");
+    return;
+  }
+
+  const newText = prompt("수정할 댓글 내용을 입력하세요.", comment.text || "");
+  if (newText === null) return;
+
+  const trimmedText = newText.trim();
+  if (!trimmedText) {
+    alert("댓글 내용을 입력해주세요.");
+    return;
+  }
+
+  if (trimmedText.length > 300) {
+    alert("댓글은 300자 이내로 입력해주세요.");
+    return;
+  }
+
+  try {
+    await update(ref(db, `comments/${commentId}`), {
+      text: trimmedText,
+      updatedAt: Date.now()
+    });
+    setStatus("댓글이 수정되었습니다.");
+  } catch (error) {
+    console.error(error);
+    alert("댓글 수정에 실패했습니다. Firebase 보안 규칙을 확인해주세요.");
+  }
+};
+
+window.deleteComment = async function (commentId) {
+  const comment = commentCache[commentId];
+  if (!comment) {
+    alert("댓글 정보를 찾을 수 없습니다.");
+    return;
+  }
+
+  if (!comment.passwordHash) {
+    alert("이 댓글은 비밀번호 기능 적용 전에 작성되어 페이지에서 직접 삭제할 수 없습니다.");
+    return;
+  }
+
+  const password = prompt("댓글 작성 시 입력한 비밀번호를 입력하세요.");
+  if (password === null) return;
+
+  const passwordHash = await hashPassword(password.trim());
+  if (passwordHash !== comment.passwordHash) {
+    alert("비밀번호가 일치하지 않습니다.");
+    return;
+  }
+
+  const ok = confirm("댓글을 삭제하시겠습니까?");
+  if (!ok) return;
+
+  try {
+    await remove(ref(db, `comments/${commentId}`));
+    setStatus("댓글이 삭제되었습니다.");
+  } catch (error) {
+    console.error(error);
+    alert("댓글 삭제에 실패했습니다. Firebase 보안 규칙을 확인해주세요.");
   }
 };
 
