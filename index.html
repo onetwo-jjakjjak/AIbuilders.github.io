@@ -1,0 +1,2143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>2026 AI Academy 전문교육 안내</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Leaflet CSS removed -->
+<style>
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-card: #13131a;
+  --bg-card-alt: #1a1a25;
+  --bg-accent: #1e1e2e;
+  --text-primary: #f0f0f5;
+  --text-secondary: #9a9ab0;
+  --text-muted: #6b6b80;
+  --accent-blue: #4a7cff;
+  --accent-cyan: #22d3ee;
+  --accent-purple: #a78bfa;
+  --accent-green: #34d399;
+  --accent-orange: #fb923c;
+  --accent-pink: #f472b6;
+  --accent-red: #f87171;
+  --border: rgba(255,255,255,0.06);
+  --border-active: rgba(74,124,255,0.3);
+  --glow-blue: rgba(74,124,255,0.15);
+  --glow-cyan: rgba(34,211,238,0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 16px;
+  padding-bottom: 80px;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  padding: 48px 20px 36px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -30%;
+  width: 160%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(74,124,255,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 20%, rgba(167,139,250,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(74,124,255,0.1);
+  border: 1px solid rgba(74,124,255,0.2);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.hero-badge .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent-green);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero h1 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.hero h1 span {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 400;
+  position: relative;
+}
+
+.hero-partner {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  position: relative;
+}
+
+.hero-partner strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Section */
+.section {
+  margin-top: 28px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 0 4px;
+}
+
+.section-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.section-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Alert Card */
+.alert-card {
+  background: linear-gradient(135deg, rgba(251,146,60,0.08), rgba(244,114,182,0.06));
+  border: 1px solid rgba(251,146,60,0.2);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+
+.alert-card .alert-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-orange);
+  margin-bottom: 10px;
+}
+
+.alert-card .alert-body {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.alert-card .alert-body strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.highlight-red {
+  color: var(--accent-red) !important;
+  font-weight: 700 !important;
+}
+
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.info-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.info-item.full {
+  grid-column: 1 / -1;
+}
+
+.info-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.info-value.small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* Roadmap */
+.roadmap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 16px 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.roadmap::-webkit-scrollbar { display: none; }
+
+.roadmap-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+}
+
+.roadmap-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.roadmap-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.roadmap-arrow {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin: 0 -2px;
+  flex-shrink: 0;
+  margin-bottom: 14px;
+}
+
+.c1 .roadmap-num { background: rgba(74,124,255,0.15); color: var(--accent-blue); }
+.c1 .roadmap-label { color: var(--accent-blue); }
+.c2 .roadmap-num { background: rgba(34,211,238,0.15); color: var(--accent-cyan); }
+.c2 .roadmap-label { color: var(--accent-cyan); }
+.c3 .roadmap-num { background: rgba(52,211,153,0.15); color: var(--accent-green); }
+.c3 .roadmap-label { color: var(--accent-green); }
+.c4 .roadmap-num { background: rgba(167,139,250,0.15); color: var(--accent-purple); }
+.c4 .roadmap-label { color: var(--accent-purple); }
+.c5 .roadmap-num { background: rgba(244,114,182,0.15); color: var(--accent-pink); }
+.c5 .roadmap-label { color: var(--accent-pink); }
+
+/* Schedule Table */
+.schedule-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.schedule-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.schedule-card-header:active {
+  background: rgba(255,255,255,0.02);
+}
+
+.schedule-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.schedule-month-badge {
+  padding: 3px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.schedule-course-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.schedule-arrow {
+  font-size: 14px;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+
+.schedule-card.open .schedule-arrow {
+  transform: rotate(180deg);
+}
+
+.schedule-content {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+
+.schedule-card.open .schedule-content {
+  display: block;
+}
+
+/* Mini Schedule Table */
+.mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  table-layout: fixed;
+}
+
+.mini-table th {
+  background: var(--bg-accent);
+  padding: 8px 4px;
+  font-weight: 600;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.mini-table th.sunday-h {
+  color: var(--accent-red);
+}
+
+.mini-table th.saturday-h {
+  color: var(--accent-blue);
+}
+
+.mini-table td {
+  padding: 8px 4px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 11px;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.mini-table .sunday {
+  color: var(--accent-red);
+  opacity: 0.55;
+}
+
+.mini-table .saturday {
+  color: var(--accent-blue);
+  opacity: 0.55;
+}
+
+.mini-table .course-day {
+  background: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.mini-table .empty-cell {
+  opacity: 0;
+}
+
+.mini-table .time-col {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  width: 44px;
+}
+
+.mini-table .topic-cell {
+  text-align: left;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.mini-table .sub-topic {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.mini-table .lunch-row td {
+  background: rgba(255,255,255,0.02);
+  color: var(--text-muted);
+  font-weight: 500;
+  text-align: center;
+}
+
+.day-header {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 10px;
+  background: var(--bg-accent);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.day-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Calendar View */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+
+.cal-header {
+  background: var(--bg-accent);
+  padding: 8px 4px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.cal-cell {
+  background: var(--bg-card);
+  padding: 6px 4px;
+  text-align: center;
+  min-height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.cal-date {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.cal-event {
+  font-size: 8px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.cal-holiday {
+  color: var(--accent-red) !important;
+  font-weight: 700;
+}
+
+.cal-holiday-label {
+  font-size: 7px;
+  color: var(--accent-red);
+  font-weight: 600;
+}
+
+.ev-blue { background: rgba(74,124,255,0.15); color: var(--accent-blue); }
+.ev-cyan { background: rgba(34,211,238,0.15); color: var(--accent-cyan); }
+.ev-green { background: rgba(52,211,153,0.15); color: var(--accent-green); }
+.ev-purple { background: rgba(167,139,250,0.15); color: var(--accent-purple); }
+.ev-pink { background: rgba(244,114,182,0.15); color: var(--accent-pink); }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab-btn.active {
+  background: var(--accent-blue);
+  color: white;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* Course Detail Cards */
+.course-detail {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.course-detail-header {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.course-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.course-info h3 {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.course-info .course-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.day-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 16px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.day-tabs::-webkit-scrollbar { display: none; }
+
+.day-tab {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.day-tab.active {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background: rgba(74,124,255,0.08);
+}
+
+.day-content {
+  display: none;
+  padding: 0 16px 16px;
+}
+
+.day-content.active {
+  display: block;
+}
+
+.time-block {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.time-block:last-child {
+  border-bottom: none;
+}
+
+.time-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  min-width: 48px;
+  padding-top: 2px;
+  flex-shrink: 0;
+  line-height: 1.4;
+  text-align: center;
+  /* Hide time labels to remove schedule times */
+  display: none;
+}
+
+.time-content h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.time-content p {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.time-block.lunch {
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.time-block.lunch span {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* How To Section */
+.steps {
+  counter-reset: step;
+}
+
+.step-item {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.step-item:last-child {
+  border-bottom: none;
+}
+
+.step-num {
+  counter-increment: step;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(74,124,255,0.1);
+  border: 1px solid rgba(74,124,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-blue);
+  flex-shrink: 0;
+}
+
+.step-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.step-text strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.step-text code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(74,124,255,0.08);
+  border: 1px solid rgba(74,124,255,0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--accent-blue);
+}
+
+
+
+/* Contact */
+.contact-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.contact-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 4px 0;
+}
+
+.contact-row a {
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 24px 16px;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Scroll to top */
+.scroll-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  color: white;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(74,124,255,0.3);
+  z-index: 100;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scroll-top.show {
+  display: flex;
+}
+
+/* Nav Pills */
+.nav-pills {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 10px 16px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-pills::-webkit-scrollbar { display: none; }
+
+.nav-pill {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s;
+}
+
+.nav-pill.active {
+  background: rgba(74,124,255,0.12);
+  color: var(--accent-blue);
+}
+
+/* Utility */
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.text-center { text-align: center; }
+
+/* Divider */
+.section-divider {
+  margin: 40px 0 32px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.section-divider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+}
+
+.section-divider h2 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin-top: 8px;
+}
+
+.section-divider h2 span {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-divider p {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Event Card */
+.event-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.event-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.event-card-header:active {
+  background: rgba(255,255,255,0.02);
+}
+
+.event-card-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.event-emoji {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.event-title-area h3 {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.event-title-area .event-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.event-card .schedule-arrow {
+  font-size: 14px;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+
+.event-card.open .schedule-arrow {
+  transform: rotate(180deg);
+}
+
+.event-card-body {
+  display: none;
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+.event-card.open .event-card-body {
+  display: block;
+}
+
+.event-row {
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.event-row .ev-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.event-row .ev-val {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.event-row ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 4px;
+}
+
+.event-row ul li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.event-row ul li::before {
+  content: '·';
+  position: absolute;
+  left: 2px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+/* Budget */
+.budget-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.budget-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.budget-row:last-child {
+  border-bottom: none;
+}
+
+.budget-row .b-name {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.budget-row .b-amount {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.budget-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0 0;
+  margin-top: 4px;
+  border-top: 2px solid rgba(167,139,250,0.3);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.budget-total .b-amount {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--accent-purple);
+  font-size: 15px;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 24px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-purple), var(--accent-pink));
+  border-radius: 1px;
+}
+
+.tl-item {
+  position: relative;
+  padding-bottom: 18px;
+}
+
+.tl-item:last-child {
+  padding-bottom: 0;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -21px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 2px solid var(--accent-purple);
+}
+
+.tl-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--accent-purple);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.tl-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* Hide time labels in detailed curriculum */
+.time-label { display: none !important; }
+.time-block { gap: 0 !important; }
+
+/* Map section styles removed */
+
+/* Comments section styles */
+#comments { margin-top: 40px; }
+#commentList { margin-bottom: 16px; }
+.comment-item { background: var(--bg-card); padding: 12px 16px; border-radius: 8px; margin-bottom: 8px; }
+/* Hide lunch time blocks in curriculum */
+.time-block.lunch { display: none !important; }
+
+/* Comment form elements */
+.comment-form input[type="text"] { width: 100%; border: 1px solid var(--line-color); border-radius: 8px; padding: 8px; margin-bottom: 8px; font-size: 14px; }
+.comment-form textarea { width: 100%; min-height: 80px; border: 1px solid var(--line-color); border-radius: 8px; padding: 8px; resize: vertical; font-size: 14px; margin-bottom: 8px; }
+.comment-form button { background: var(--accent-orange); color: #fff; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+.comment-form button:disabled { background: var(--text-muted); cursor: not-allowed; }
+
+/* Comment item layout */
+.comment-item .comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.comment-item .comment-author { font-weight: 600; margin-right: 8px; }
+.comment-item .comment-date { font-size: 11px; color: var(--text-muted); }
+.comment-item .delete-btn { background: none; border: none; color: var(--accent-red, #ef4444); cursor: pointer; font-size: 12px; }
+.comment-item .comment-text { font-size: 14px; }
+
+  /* Hide separate curriculum section since details are integrated into monthly schedule */
+  #curriculum { display: none; }
+
+</style>
+</head>
+<body>
+
+<!-- Sticky Nav -->
+<nav class="nav-pills" id="navPills">
+  <button class="nav-pill active" onclick="scrollToSection('hero')">홈</button>
+  <button class="nav-pill" onclick="scrollToSection('april-info')">교육정보</button>
+  <button class="nav-pill" onclick="scrollToSection('schedule')">연간일정</button>
+  <!-- Removed the separate curriculum navigation after merging schedule and curriculum -->
+  <button class="nav-pill" onclick="scrollToSection('howto')">수강신청</button>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero" id="hero">
+    <div class="hero-badge"><span class="dot"></span> 2026년 1학기 과정</div>
+    <h1><span>AI Academy</span><br>전문교육 안내</h1>
+    <p class="hero-sub">삼성물산 건설부문 · 기초 Skill 5개 과정</p>
+    <div class="hero-partner">교육 파트너 <strong>엘리스그룹</strong></div>
+  </div>
+
+  <!-- 교육 정보 -->
+  <div class="section" id="april-info">
+    <div class="section-header">
+      <div class="section-icon" style="background: rgba(74,124,255,0.12);">📍</div>
+      <div>
+        <div class="section-title">교육 정보</div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item full">
+        <div class="info-label">교육 시간</div>
+        <div class="info-value">8:30 ~ 17:30 (8시간)</div>
+      </div>
+      <div class="info-item full">
+        <div class="info-label">교육 장소</div>
+        <div class="info-value"><a href="https://map.naver.com/v5/search/%EC%84%9C%EC%9A%B8%20%EC%84%B1%EB%8F%99%EA%B5%AC%20%EC%95%84%EC%B0%A8%EC%82%B0%EB%A1%9C17%EA%B8%B8%2048" target="_blank" style="color: var(--text-primary); text-decoration: none; display: flex; align-items: center; gap: 6px;">엘리스랩 서울센터 <span style="font-size: 11px; color: var(--accent-blue);">지도 →</span></a></div>
+        <div class="info-value small">서울 성동구 아차산로 17길 48 · 주차 불가 (일 최대 3만원)</div>
+      </div>
+      <div class="info-item full">
+        <div class="info-label">수강신청 링크</div>
+        <div class="info-value" style="font-size: 12px;">
+          <a href="https://samsungcnt-edu.elice.io/notices/3903" style="color: var(--accent-blue); text-decoration: none; word-break: break-all;">
+            samsungcnt-edu.elice.io/notices/3903
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 커리큘럼 로드맵 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background: rgba(74,124,255,0.12);">🗺️</div>
+      <div>
+        <div class="section-title">커리큘럼 로드맵</div>
+        <div class="section-desc">순차 입과 권장</div>
+      </div>
+    </div>
+
+    <div class="roadmap">
+      <div class="roadmap-step c1">
+        <div class="roadmap-num">①</div>
+        <div class="roadmap-label">AI서비스기획<br>+SQL+Tableau</div>
+      </div>
+      <div class="roadmap-arrow">▸</div>
+      <div class="roadmap-step c2">
+        <div class="roadmap-num">②</div>
+        <div class="roadmap-label">파이썬</div>
+      </div>
+      <div class="roadmap-arrow">▸</div>
+      <div class="roadmap-step c3">
+        <div class="roadmap-num">③</div>
+        <div class="roadmap-label">데이터<br>분석</div>
+      </div>
+      <div class="roadmap-arrow">▸</div>
+      <div class="roadmap-step c4">
+        <div class="roadmap-num">④</div>
+        <div class="roadmap-label">머신러닝</div>
+      </div>
+      <div class="roadmap-arrow">▸</div>
+      <div class="roadmap-step c5">
+        <div class="roadmap-num">⑤</div>
+        <div class="roadmap-label">AI Agent</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 월별 일정표 -->
+  <div class="section" id="schedule">
+    <div class="section-header">
+      <div class="section-icon" style="background: rgba(34,211,238,0.12);">📅</div>
+      <div>
+        <div class="section-title">1학기 월별 일정표</div>
+        <div class="section-desc">4월 ~ 8월 · 5개 과정 / 10차수 · 차수 당 4~5일</div>
+      </div>
+    </div>
+
+    <!-- 4월 -->
+    <div class="schedule-card open" id="sched-apr">
+      <div class="schedule-card-header" onclick="toggleSchedule('sched-apr')">
+        <div class="schedule-card-title">
+          <span class="schedule-month-badge" style="background: rgba(74,124,255,0.12); color: var(--accent-blue);">4월</span>
+          <span class="schedule-course-name">① AI서비스기획+SQL+Tableau</span>
+        </div>
+        <span class="schedule-arrow">▾</span>
+      </div>
+      <div class="schedule-content">
+        <table class="mini-table">
+          <tr><th class="sunday-h">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th class="saturday-h">토</th></tr>
+          <tr><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td>1</td><td>2</td><td>3</td><td class="saturday">4</td></tr>
+          <tr><td class="sunday">5</td><td class="course-day">6</td><td class="course-day">7</td><td class="course-day">8</td><td class="course-day">9</td><td>10</td><td class="saturday">11</td></tr>
+          <tr><td colspan="7" style="text-align:center; color: var(--accent-blue); font-weight:600; font-size:10px;">↑ 1차수: 4/6(월)~9(목)</td></tr>
+          <tr><td class="sunday">12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td class="saturday">18</td></tr>
+          <tr><td class="sunday">19</td><td class="course-day">20</td><td class="course-day">21</td><td class="course-day">22</td><td class="course-day">23</td><td>24</td><td class="saturday">25</td></tr>
+          <tr><td colspan="7" style="text-align:center; color: var(--accent-blue); font-weight:600; font-size:10px;">↑ 2차수: 4/20(월)~23(목)</td></tr>
+          <tr><td class="sunday">26</td><td>27</td><td>28</td><td>29</td><td>30</td><td class="empty-cell">·</td><td class="empty-cell">·</td></tr>
+        </table>
+      </div>
+      <!-- Combined course details for April -->
+      <div class="course-detail">
+        <div class="course-detail-header">
+          <div class="course-num" style="background: rgba(74,124,255,0.12); color: var(--accent-blue);">①</div>
+          <div class="course-info">
+            <h3>AI 서비스 기획 + SQL + Tableau</h3>
+            <div class="course-meta">4일 과정 · 일 8시간</div>
+          </div>
+        </div>
+        <div class="day-tabs">
+          <button class="day-tab active" onclick="switchScheduleDay('sched-apr', 0)">Day 1</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-apr', 1)">Day 2</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-apr', 2)">Day 3</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-apr', 3)">Day 4</button>
+        </div>
+        <div class="day-content active">
+          <!-- Day 1 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>데이터 리터러시 OT 및 데이터 분석 기초</h4><p>워크숍 소개 및 진행 방식 안내, 조 구성<br>건설 분야 샘플 데이터 분석</p></div></div>
+          <div class="time-block"><div class="time-label">3교시<br>10:30</div><div class="time-content"><h4>AI 서비스 기획 소개 (1)</h4><p>AI 서비스 기획의 요건<br>서비스 기획 프로세스와 주요 고려사항</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>AI 서비스 기획 소개 (2)</h4><p>문제 해결 방법론<br>건설분야 AI 적용사례</p></div></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>AI 서비스 기획 기초 및 구체화</h4><p>데이터 연관 건설 현장 문제점 브레인스토밍<br>아이디어 피드백/보완</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>프로토타입 AI 서비스 화면 만들기</h4></div></div>
+          <div class="time-block"><div class="time-label">8교시<br>16:40</div><div class="time-content"><h4>기획 결과 발표</h4><p>목업 기반 아이디어 조별 발표<br>실무 관점 개선 포인트 제안/피드백</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 2 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>SQL 이론</h4><p>DB 및 SQL 소개 (RDBMS vs NoSQL)</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>SQL 실습 (1)</h4><p>기본 문법 실습 (SELECT, FROM, WHERE)</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>SQL 실습 (2)</h4><p>필터링 및 정렬 실습 (LIKE, IN, GROUP BY 등)</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 3 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Tableau 이론</h4><p>Tableau 기본 개념 및 사용 목적</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>Tableau 실습 (1)</h4><p>Tableau 인터페이스 및 주요 기능 학습</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>Tableau 실습 (2)</h4><p>시각화 기본 차트 작성 및 데이터 연결</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 4 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Tableau 고급 함수 이론</h4><p>계산된 필드 및 테이블 계산 활용</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>Tableau 고급 함수 실습</h4><p>LOD 세부수준<br>상호작용 응용</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>종합 프로젝트</h4><p>Tableau 활용 대시보드 구현<br>개인별 프로젝트 결과물 완성</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5월 -->
+    <div class="schedule-card open" id="sched-may">
+      <div class="schedule-card-header" onclick="toggleSchedule('sched-may')">
+        <div class="schedule-card-title">
+          <span class="schedule-month-badge" style="background: rgba(34,211,238,0.12); color: var(--accent-cyan);">5월</span>
+          <span class="schedule-course-name">② 파이썬</span>
+        </div>
+        <span class="schedule-arrow">▾</span>
+      </div>
+      <div class="schedule-content">
+        <table class="mini-table">
+          <tr><th class="sunday-h">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th class="saturday-h">토</th></tr>
+          <tr><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td style="color: var(--accent-red);">1<br><span style="font-size:8px;">근로자의날</span></td><td class="saturday">2</td></tr>
+          <tr><td class="sunday">3</td><td>4</td><td style="color: var(--accent-red);">5<br><span style="font-size:8px;">어린이날</span></td><td>6</td><td>7</td><td>8</td><td class="saturday">9</td></tr>
+          <tr><td class="sunday">10</td><td class="course-day">11</td><td class="course-day">12</td><td class="course-day">13</td><td class="course-day">14</td><td>15</td><td class="saturday">16</td></tr>
+          <tr><td colspan="7" style="text-align:center; color: var(--accent-cyan); font-weight:600; font-size:10px;">↑ 1차수: 5/11(월)~14(목)</td></tr>
+          <tr><td class="sunday">17</td><td class="course-day">18</td><td class="course-day">19</td><td class="course-day">20</td><td class="course-day">21</td><td>22</td><td class="saturday">23</td></tr>
+          <tr><td colspan="7" style="text-align:center; color: var(--accent-cyan); font-weight:600; font-size:10px;">↑ 2차수: 5/18(월)~21(목)</td></tr>
+          <tr><td class="sunday">24</td><td style="color: var(--accent-red);">25<br><span style="font-size:8px;">석가탄신일</span></td><td>26</td><td>27</td><td>28</td><td>29</td><td class="saturday">30</td></tr>
+          <tr><td class="sunday">31</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td></tr>
+        </table>
+      </div>
+      <!-- Combined course details for May -->
+      <div class="course-detail">
+        <div class="course-detail-header">
+          <div class="course-num" style="background: rgba(34,211,238,0.12); color: var(--accent-cyan);">②</div>
+          <div class="course-info">
+            <h3>파이썬 과정</h3>
+            <div class="course-meta">4일 과정 · 일 8시간</div>
+          </div>
+        </div>
+        <div class="day-tabs">
+          <button class="day-tab active" onclick="switchScheduleDay('sched-may', 0)">Day 1</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-may', 1)">Day 2</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-may', 2)">Day 3</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-may', 3)">Day 4</button>
+        </div>
+        <div class="day-content active">
+          <!-- Day 1 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Python 소개 및 프로그래밍 체험</h4><p>다양한 Python 사용 사례</p></div></div>
+          <div class="time-block"><div class="time-label">3교시<br>10:30</div><div class="time-content"><h4>생성형 AI Overview 및 질문 최적화 방법</h4></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>프로그램을 위한 프롬프트 엔지니어링</h4></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>생성형 AI 활용 Python 데이터 분석 실습</h4></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 2 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Python 기초 문법 (1)</h4><p>Python 입문 (변수/입출력 등)</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>Python 기초 문법 (1) 계속</h4><p>논리 자료형과 조건문 활용 실습<br>리스트와 시퀀스 자료형 이해</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 3 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Python 기초 문법 (2)</h4><p>반복문 활용 및 제어</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>Python 기초 문법 (2) 계속</h4><p>복합자료형(튜플, 딕셔너리) 이해<br>함수와 메서드 정의 및 사용</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 4 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Python 심화 문법</h4><p>f-string, List Comprehension, Sorted, Enumerate 등 활용</p></div></div>
+          <div class="time-block"><div class="time-label">3교시<br>10:30</div><div class="time-content"><h4>Python 환경 구축 (1)</h4><p>모듈과 패키지</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>Python 환경 구축 (2)</h4><p>가상환경 설정 및 라이브러리 설치<br>Python 라이브러리 호출 및 활용 실습</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>종합 테스트</h4></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6월 -->
+    <div class="schedule-card open" id="sched-jun">
+      <div class="schedule-card-header" onclick="toggleSchedule('sched-jun')">
+        <div class="schedule-card-title">
+          <span class="schedule-month-badge" style="background: rgba(52,211,153,0.12); color: var(--accent-green);">6월</span>
+          <span class="schedule-course-name">③ 데이터 분석</span>
+        </div>
+        <span class="schedule-arrow">▾</span>
+      </div>
+      <div class="schedule-content">
+        <table class="mini-table">
+          <tr><th class="sunday-h">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th class="saturday-h">토</th></tr>
+          <tr><td class="empty-cell">·</td><td>1</td><td>2</td><td style="color: var(--accent-red);">3<br><span style="font-size:8px;">지방선거</span></td><td>4</td><td>5</td><td class="saturday">6</td></tr>
+          <tr><td class="sunday">7</td><td class="course-day">8</td><td class="course-day">9</td><td class="course-day">10</td><td class="course-day">11</td><td>12</td><td class="saturday">13</td></tr>
+          <tr><td colspan="7" style="text-align:center; color: var(--accent-green); font-weight:600; font-size:10px;">↑ 1차수: 6/8(월)~11(목)</td></tr>
+          <tr><td class="sunday">14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td class="saturday">20</td></tr>
+          <tr><td class="sunday">21</td><td class="course-day">22</td><td class="course-day">23</td><td class="course-day">24</td><td class="course-day">25</td><td>26</td><td class="saturday">27</td></tr>
+          <tr><td colspan="7" style="text-align:center; color: var(--accent-green); font-weight:600; font-size:10px;">↑ 2차수: 6/22(월)~25(목)</td></tr>
+          <tr><td class="sunday">28</td><td>29</td><td>30</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td></tr>
+        </table>
+      </div>
+      <!-- Combined course details for June -->
+      <div class="course-detail">
+        <div class="course-detail-header">
+          <div class="course-num" style="background: rgba(52,211,153,0.12); color: var(--accent-green);">③</div>
+          <div class="course-info">
+            <h3>데이터 분석 과정</h3>
+            <div class="course-meta">4일 과정 · 일 8시간</div>
+          </div>
+        </div>
+        <div class="day-tabs">
+          <button class="day-tab active" onclick="switchScheduleDay('sched-jun', 0)">Day 1</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-jun', 1)">Day 2</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-jun', 2)">Day 3</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-jun', 3)">Day 4</button>
+        </div>
+        <div class="day-content active">
+          <!-- Day 1 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>디지털 전환과 데이터 분석, 데이터 리터러시</h4><p>새로운 세상을 보는 눈, 데이터<br>사례로 배우는 디지털 트랜스포메이션</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>Pandas 라이브러리</h4><p>Series, DataFrame 자료형</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>데이터 분석 ① 데이터 분석 라이브러리 학습</h4><p>데이터 살펴보기<br>데이터 변환하기</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 2 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>데이터 분석 ② 데이터 요약/추출</h4><p>데이터 요약하기<br>데이터 추출하기</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>데이터 분석 ③ 데이터 정제/병합</h4><p>데이터 정제하기<br>데이터 병합하기</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>데이터 시각화 이론</h4><p>데이터 시각화란<br>시각화 도구 학습<br>유의사항</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 3 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>데이터 시각화 ① 시각화 라이브러리 & 기초 그래프</h4><p>데이터시각화 라이브러리<br>선 그래프 & 막대 그래프</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>데이터 시각화 ② 다양한 그래프 그리기</h4><p>파이 차트와 히스토그램<br>박스 그래프<br>산점도와 히트맵</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 4 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>공공데이터 분석 및 시각화하기</h4><p>건설기계작동 데이터 분석<br>건설기계 작동 데이터 전처리 및 시각화</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>바이브 코딩을 활용한 공공데이터 분석 프로젝트</h4><p>Antigravity를 활용한 데이터분석</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7월 -->
+    <div class="schedule-card open" id="sched-jul">
+      <div class="schedule-card-header" onclick="toggleSchedule('sched-jul')">
+        <div class="schedule-card-title">
+          <span class="schedule-month-badge" style="background: rgba(167,139,250,0.12); color: var(--accent-purple);">7월</span>
+          <span class="schedule-course-name">④ 머신러닝</span>
+        </div>
+        <span class="schedule-arrow">▾</span>
+      </div>
+      <div class="schedule-content">
+        <table class="mini-table">
+          <tr><th class="sunday-h">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th class="saturday-h">토</th></tr>
+          <tr><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td>1</td><td>2</td><td>3</td><td class="saturday">4</td></tr>
+          <tr><td class="sunday">5</td><td class="course-day">6</td><td class="course-day">7</td><td class="course-day">8</td><td class="course-day">9</td><td class="course-day">10</td><td class="saturday">11</td></tr>
+          <tr><td colspan="7" style="text-align:center; color: var(--accent-purple); font-weight:600; font-size:10px;">↑ 1차수: 7/6(월)~10(금)</td></tr>
+          <tr><td class="sunday">12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td class="saturday">18</td></tr>
+          <tr><td class="sunday">19</td><td class="course-day">20</td><td class="course-day">21</td><td class="course-day">22</td><td class="course-day">23</td><td class="course-day">24</td><td class="saturday">25</td></tr>
+          <tr><td colspan="7" style="text-align:center; color: var(--accent-purple); font-weight:600; font-size:10px;">↑ 2차수: 7/20(월)~24(금)</td></tr>
+          <tr><td class="sunday">26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td class="empty-cell">·</td></tr>
+        </table>
+      </div>
+      <!-- Combined course details for July -->
+      <div class="course-detail">
+        <div class="course-detail-header">
+          <div class="course-num" style="background: rgba(167,139,250,0.12); color: var(--accent-purple);">④</div>
+          <div class="course-info">
+            <h3>머신러닝 과정</h3>
+            <div class="course-meta">5일 과정 · 일 8시간</div>
+          </div>
+        </div>
+        <div class="day-tabs">
+          <button class="day-tab active" onclick="switchScheduleDay('sched-jul', 0)">Day 1</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-jul', 1)">Day 2</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-jul', 2)">Day 3</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-jul', 3)">Day 4</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-jul', 4)">Day 5</button>
+        </div>
+        <div class="day-content active">
+          <!-- Day 1 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>AI Overview</h4></div></div>
+          <div class="time-block"><div class="time-label">2교시<br>09:30</div><div class="time-content"><h4>머신러닝 프로젝트 진행 소개</h4></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>머신러닝 회귀</h4><p>회귀 분석 기본 개념<br>단순/다중 회귀 분석<br>과적합/정규화<br>회귀 알고리즘 평가지표</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>머신러닝 분류</h4><p>분류 분석 기본 개념<br>분류 알고리즘 평가지표</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 2 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>회귀 모델 구축</h4><p>데이터 탐색<br>기초 모델 구축 실습</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>회귀 모델 평가/최적화</h4><p>오차분석/Loss 함수 구현<br>회귀 모델 평가 및 성능 실습<br>최적화 알고기초 기초<br>경사하강법 구현 실습<br>하이퍼파라미터 튜닝 및 최적화 심화 실습</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 3 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>회귀 모델 고도화</h4><p>다중 선형 회귀<br>라이브러리 활용 실습</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>회귀 모델 PBL 프로젝트</h4><p>다중 선형 회귀 라이브러리<br>다항 회귀와 과적합 방지 정규화 기법<br>PBL 머신러닝 회귀 프로젝트</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 4 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>[ML 프로젝트]</h4><p>프로젝트 주제 및 데이터 선정</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>[ML 프로젝트] 계속</h4><p>데이터 분석 및 시각화 : 분석/정제<br>기초 모델링을 통한 데이터 특성 파악</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 5 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>[ML 프로젝트] - 성능개선</h4><p>하이퍼파라미터 튜닝<br>앙상블 기법 적용<br>모델 학습 결과 확인 및 성능 최적화</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>[ML 프로젝트] - 성능개선/결과 정리</h4><p>모델 성능 최종 검증 및 비교 분석<br>분석 인사이트 도출 및 시사점 정리<br>발표 대시보드 및 최종 리포트 완성</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8월 -->
+    <div class="schedule-card open" id="sched-aug">
+      <div class="schedule-card-header" onclick="toggleSchedule('sched-aug')">
+        <div class="schedule-card-title">
+          <span class="schedule-month-badge" style="background: rgba(244,114,182,0.12); color: var(--accent-pink);">8월</span>
+          <span class="schedule-course-name">⑤ AI Agent</span>
+        </div>
+        <span class="schedule-arrow">▾</span>
+      </div>
+      <div class="schedule-content">
+        <table class="mini-table">
+          <tr><th class="sunday-h">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th class="saturday-h">토</th></tr>
+          <tr><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="saturday">1</td></tr>
+          <tr><td class="sunday">2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td class="saturday">8</td></tr>
+          <tr><td class="sunday">9</td><td class="course-day">10</td><td class="course-day">11</td><td class="course-day">12</td><td class="course-day">13</td><td class="course-day">14</td><td class="saturday">15</td></tr>
+          <tr><td colspan="7" style="text-align:center; color: var(--accent-pink); font-weight:600; font-size:10px;">↑ 1차수: 8/10(월)~14(금)</td></tr>
+          <tr><td class="sunday">16</td><td style="color: var(--accent-red);">17<br><span style="font-size:8px;">대체공휴일</span></td><td>18</td><td>19</td><td>20</td><td>21</td><td class="saturday">22</td></tr>
+          <tr><td class="sunday">23</td><td class="course-day">24</td><td class="course-day">25</td><td class="course-day">26</td><td class="course-day">27</td><td class="course-day">28</td><td class="saturday">29</td></tr>
+          <tr><td colspan="7" style="text-align:center; color: var(--accent-pink); font-weight:600; font-size:10px;">↑ 2차수: 8/24(월)~28(금)</td></tr>
+          <tr><td class="sunday">30</td><td>31</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td><td class="empty-cell">·</td></tr>
+        </table>
+      </div>
+      <!-- Combined course details for August -->
+      <div class="course-detail">
+        <div class="course-detail-header">
+          <div class="course-num" style="background: rgba(244,114,182,0.12); color: var(--accent-pink);">⑤</div>
+          <div class="course-info">
+            <h3>AI Agent 과정</h3>
+            <div class="course-meta">5일 과정 · 일 8시간</div>
+          </div>
+        </div>
+        <div class="day-tabs">
+          <button class="day-tab active" onclick="switchScheduleDay('sched-aug', 0)">Day 1</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-aug', 1)">Day 2</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-aug', 2)">Day 3</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-aug', 3)">Day 4</button>
+          <button class="day-tab" onclick="switchScheduleDay('sched-aug', 4)">Day 5</button>
+        </div>
+        <div class="day-content active">
+          <!-- Day 1 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>LLM 기초/발전, 프롬프트 전략, API 활용</h4><p>생성형 AI<br>LLM 개념/한계<br>프롬프트 템플릿<br>API, 하이퍼 파라미터</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>데이터 기반 LLM 챗봇</h4><p>Pandas/SQL 활용 추출<br>SQL/ChatGPT 연동 실습<br>웹 검색 구현 실습, 로컬 LLM 설치/활용<br>호출 함수 이해</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 2 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>텍스트 정규화 전략 및 Chunking 기술</h4></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>VectorDB 구축 및 Retriever 활용 실습</h4></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>LangChain 기반 RAG 전처리 파이프라인 완성</h4></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 3 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>LangGraph 워크플로우 설계 및 Self-Reflective RAG 구현</h4><p>할루시네이션 자가 검증 챗봇 구현</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>Adaptive RAG & Modular RAG</h4><p>Adaptive RAG와 Reranker를 활용한 검색 최적화 기법<br>Modular RAG 구조로의 리팩토링 실습</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 4 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>[AI 서비스 구축 프로젝트]</h4><p>주제 선정 및 데이터 수집 계획 수립<br>데이터 전처리 파이프라인 및 Vector DB 설계</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>[AI 서비스 구축 프로젝트] 계속</h4><p>Langchain/LangGraph를 활용한 메인 에이전트 로직 구현<br>서비스 기능 명세서 작성 및 멘토링 피드백</p></div></div>
+        </div>
+        <div class="day-content">
+          <!-- Day 5 content -->
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>[AI 서비스 구축 프로젝트] - 고도화</h4><p>웹 인터페이스 최적화 및 기능 통합<br>답변 품질 고도화</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>프로젝트 시연 및 성과 발표</h4></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>개발 과정 회고 및 개선 사항 도출</h4></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 상세 커리큘럼 -->
+<div class="section" id="curriculum">
+    <div class="section-header">
+      <div class="section-icon" style="background: rgba(167,139,250,0.12);">📚</div>
+      <div>
+        <div class="section-title">상세 커리큘럼</div>
+        <div class="section-desc">과정별 일자별 시간표</div>
+      </div>
+    </div>
+
+    <div class="tabs" id="courseTabs">
+      <button class="tab-btn active" onclick="switchCourse(0)">① AI기획+SQL</button>
+      <button class="tab-btn" onclick="switchCourse(1)">② 파이썬</button>
+      <button class="tab-btn" onclick="switchCourse(2)">③ 데이터분석</button>
+      <button class="tab-btn" onclick="switchCourse(3)">④ 머신러닝</button>
+      <button class="tab-btn" onclick="switchCourse(4)">⑤ AI Agent</button>
+    </div>
+
+    <!-- ① AI 서비스 기획 + SQL + Tableau (4일) -->
+    <div class="tab-panel active" id="course-0">
+      <div class="course-detail">
+        <div class="course-detail-header">
+          <div class="course-num" style="background: rgba(74,124,255,0.12); color: var(--accent-blue);">①</div>
+          <div class="course-info">
+            <h3>AI 서비스 기획 + SQL + Tableau</h3>
+            <div class="course-meta">4일 과정 · 일 8시간</div>
+          </div>
+        </div>
+        <div class="day-tabs" id="dayTabs-0">
+          <button class="day-tab active" onclick="switchDay(0, 0)">Day 1</button>
+          <button class="day-tab" onclick="switchDay(0, 1)">Day 2</button>
+          <button class="day-tab" onclick="switchDay(0, 2)">Day 3</button>
+          <button class="day-tab" onclick="switchDay(0, 3)">Day 4</button>
+        </div>
+
+        <div class="day-content active" id="day-0-0">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>데이터 리터러시 OT 및 데이터 분석 기초</h4><p>워크숍 소개 및 진행 방식 안내, 조 구성<br>건설 분야 샘플 데이터 분석</p></div></div>
+          <div class="time-block"><div class="time-label">3교시<br>10:30</div><div class="time-content"><h4>AI 서비스 기획 소개 (1)</h4><p>AI 서비스 기획의 요건<br>서비스 기획 프로세스와 주요 고려사항</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>AI 서비스 기획 소개 (2)</h4><p>문제 해결 방법론<br>건설분야 AI 적용사례</p></div></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>AI 서비스 기획 기초 및 구체화</h4><p>데이터 연관 건설 현장 문제점 브레인스토밍<br>아이디어 피드백/보완</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>프로토타입 AI 서비스 화면 만들기</h4></div></div>
+          <div class="time-block"><div class="time-label">8교시<br>16:40</div><div class="time-content"><h4>기획 결과 발표</h4><p>목업 기반 아이디어 조별 발표<br>실무 관점 개선 포인트 제안/피드백</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-0-1">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>SQL 이론</h4><p>DB 및 SQL 소개 (RDBMS vs NoSQL)</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>SQL 실습 (1)</h4><p>기본 문법 실습 (SELECT, FROM, WHERE)</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>SQL 실습 (2)</h4><p>필터링 및 정렬 실습 (LIKE, IN, GROUP BY 등)</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-0-2">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Tableau 이론</h4><p>Tableau 기본 개념 및 사용 목적</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>Tableau 실습 (1)</h4><p>Tableau 인터페이스 및 주요 기능 학습</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>Tableau 실습 (2)</h4><p>시각화 기본 차트 작성 및 데이터 연결</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-0-3">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Tableau 고급 함수 이론</h4><p>계산된 필드 및 테이블 계산 활용</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>Tableau 고급 함수 실습</h4><p>LOD 세부수준<br>상호작용 응용</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>종합 프로젝트</h4><p>Tableau 활용 대시보드 구현<br>개인별 프로젝트 결과물 완성</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② 파이썬 과정 (4일) -->
+    <div class="tab-panel" id="course-1">
+      <div class="course-detail">
+        <div class="course-detail-header">
+          <div class="course-num" style="background: rgba(34,211,238,0.12); color: var(--accent-cyan);">②</div>
+          <div class="course-info">
+            <h3>파이썬 과정</h3>
+            <div class="course-meta">4일 과정 · 일 8시간</div>
+          </div>
+        </div>
+        <div class="day-tabs" id="dayTabs-1">
+          <button class="day-tab active" onclick="switchDay(1, 0)">Day 1</button>
+          <button class="day-tab" onclick="switchDay(1, 1)">Day 2</button>
+          <button class="day-tab" onclick="switchDay(1, 2)">Day 3</button>
+          <button class="day-tab" onclick="switchDay(1, 3)">Day 4</button>
+        </div>
+
+        <div class="day-content active" id="day-1-0">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Python 소개 및 프로그래밍 체험</h4><p>다양한 Python 사용 사례</p></div></div>
+          <div class="time-block"><div class="time-label">3교시<br>10:30</div><div class="time-content"><h4>생성형 AI Overview 및 질문 최적화 방법</h4></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>프로그램을 위한 프롬프트 엔지니어링</h4></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>생성형 AI 활용 Python 데이터 분석 실습</h4></div></div>
+        </div>
+
+        <div class="day-content" id="day-1-1">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Python 기초 문법 (1)</h4><p>Python 입문 (변수/입출력 등)</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>Python 기초 문법 (1) 계속</h4><p>논리 자료형과 조건문 활용 실습<br>리스트와 시퀀스 자료형 이해</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-1-2">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Python 기초 문법 (2)</h4><p>반복문 활용 및 제어</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>Python 기초 문법 (2) 계속</h4><p>복합자료형(튜플, 딕셔너리) 이해<br>함수와 메서드 정의 및 사용</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-1-3">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>Python 심화 문법</h4><p>f-string, List Comprehension, Sorted, Enumerate 등 활용</p></div></div>
+          <div class="time-block"><div class="time-label">3교시<br>10:30</div><div class="time-content"><h4>Python 환경 구축 (1)</h4><p>모듈과 패키지</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>Python 환경 구축 (2)</h4><p>가상환경 설정 및 라이브러리 설치<br>Python 라이브러리 호출 및 활용 실습</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>종합 테스트</h4></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ 데이터 분석 과정 (4일) -->
+    <div class="tab-panel" id="course-2">
+      <div class="course-detail">
+        <div class="course-detail-header">
+          <div class="course-num" style="background: rgba(52,211,153,0.12); color: var(--accent-green);">③</div>
+          <div class="course-info">
+            <h3>데이터 분석 과정</h3>
+            <div class="course-meta">4일 과정 · 일 8시간</div>
+          </div>
+        </div>
+        <div class="day-tabs" id="dayTabs-2">
+          <button class="day-tab active" onclick="switchDay(2, 0)">Day 1</button>
+          <button class="day-tab" onclick="switchDay(2, 1)">Day 2</button>
+          <button class="day-tab" onclick="switchDay(2, 2)">Day 3</button>
+          <button class="day-tab" onclick="switchDay(2, 3)">Day 4</button>
+        </div>
+
+        <div class="day-content active" id="day-2-0">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>디지털 전환과 데이터 분석, 데이터 리터러시</h4><p>새로운 세상을 보는 눈, 데이터<br>사례로 배우는 디지털 트랜스포메이션</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>Pandas 라이브러리</h4><p>Series, DataFrame 자료형</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>데이터 분석 ① 데이터 분석 라이브러리 학습</h4><p>데이터 살펴보기<br>데이터 변환하기</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-2-1">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>데이터 분석 ② 데이터 요약/추출</h4><p>데이터 요약하기<br>데이터 추출하기</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>데이터 분석 ③ 데이터 정제/병합</h4><p>데이터 정제하기<br>데이터 병합하기</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>데이터 시각화 이론</h4><p>데이터 시각화란<br>시각화 도구 학습<br>유의사항</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-2-2">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>데이터 시각화 ① 시각화 라이브러리 & 기초 그래프</h4><p>데이터시각화 라이브러리<br>선 그래프 & 막대 그래프</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>데이터 시각화 ② 다양한 그래프 그리기</h4><p>파이 차트와 히스토그램<br>박스 그래프<br>산점도와 히트맵</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-2-3">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>공공데이터 분석 및 시각화하기</h4><p>건설기계작동 데이터 분석<br>건설기계 작동 데이터 전처리 및 시각화</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>바이브 코딩을 활용한 공공데이터 분석 프로젝트</h4><p>Antigravity를 활용한 데이터분석</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ 머신러닝 과정 (5일) -->
+    <div class="tab-panel" id="course-3">
+      <div class="course-detail">
+        <div class="course-detail-header">
+          <div class="course-num" style="background: rgba(167,139,250,0.12); color: var(--accent-purple);">④</div>
+          <div class="course-info">
+            <h3>머신러닝 과정</h3>
+            <div class="course-meta">5일 과정 · 일 8시간</div>
+          </div>
+        </div>
+        <div class="day-tabs" id="dayTabs-3">
+          <button class="day-tab active" onclick="switchDay(3, 0)">Day 1</button>
+          <button class="day-tab" onclick="switchDay(3, 1)">Day 2</button>
+          <button class="day-tab" onclick="switchDay(3, 2)">Day 3</button>
+          <button class="day-tab" onclick="switchDay(3, 3)">Day 4</button>
+          <button class="day-tab" onclick="switchDay(3, 4)">Day 5</button>
+        </div>
+
+        <div class="day-content active" id="day-3-0">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>AI Overview</h4></div></div>
+          <div class="time-block"><div class="time-label">2교시<br>09:30</div><div class="time-content"><h4>머신러닝 프로젝트 진행 소개</h4></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">4교시<br>12:40</div><div class="time-content"><h4>머신러닝 회귀</h4><p>회귀 분석 기본 개념<br>단순/다중 회귀 분석<br>과적합/정규화<br>회귀 알고리즘 평가지표</p></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>머신러닝 분류</h4><p>분류 분석 기본 개념<br>분류 알고리즘 평가지표</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-3-1">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>회귀 모델 구축</h4><p>데이터 탐색<br>기초 모델 구축 실습</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>회귀 모델 평가/최적화</h4><p>오차분석/Loss 함수 구현<br>회귀 모델 평가 및 성능 실습<br>최적화 알고기초 기초<br>경사하강법 구현 실습<br>하이퍼파라미터 튜닝 및 최적화 심화 실습</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-3-2">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>회귀 모델 고도화</h4><p>다중 선형 회귀<br>라이브러리 활용 실습</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>회귀 모델 PBL 프로젝트</h4><p>다중 선형 회귀 라이브러리<br>다항 회귀와 과적합 방지 정규화 기법<br>PBL 머신러닝 회귀 프로젝트</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-3-3">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>[ML 프로젝트]</h4><p>프로젝트 주제 및 데이터 선정</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>[ML 프로젝트] 계속</h4><p>데이터 분석 및 시각화 : 분석/정제<br>기초 모델링을 통한 데이터 특성 파악</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-3-4">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>[ML 프로젝트] - 성능개선</h4><p>하이퍼파라미터 튜닝<br>앙상블 기법 적용<br>모델 학습 결과 확인 및 성능 최적화</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>[ML 프로젝트] - 성능개선/결과 정리</h4><p>모델 성능 최종 검증 및 비교 분석<br>분석 인사이트 도출 및 시사점 정리<br>발표 대시보드 및 최종 리포트 완성</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑤ AI Agent 과정 (5일) -->
+    <div class="tab-panel" id="course-4">
+      <div class="course-detail">
+        <div class="course-detail-header">
+          <div class="course-num" style="background: rgba(244,114,182,0.12); color: var(--accent-pink);">⑤</div>
+          <div class="course-info">
+            <h3>AI Agent 과정</h3>
+            <div class="course-meta">5일 과정 · 일 8시간</div>
+          </div>
+        </div>
+        <div class="day-tabs" id="dayTabs-4">
+          <button class="day-tab active" onclick="switchDay(4, 0)">Day 1</button>
+          <button class="day-tab" onclick="switchDay(4, 1)">Day 2</button>
+          <button class="day-tab" onclick="switchDay(4, 2)">Day 3</button>
+          <button class="day-tab" onclick="switchDay(4, 3)">Day 4</button>
+          <button class="day-tab" onclick="switchDay(4, 4)">Day 5</button>
+        </div>
+
+        <div class="day-content active" id="day-4-0">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>LLM 기초/발전, 프롬프트 전략, API 활용</h4><p>생성형 AI<br>LLM 개념/한계<br>프롬프트 템플릿<br>API, 하이퍼 파라미터</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>데이터 기반 LLM 챗봇</h4><p>Pandas/SQL 활용 추출<br>SQL/ChatGPT 연동 실습<br>웹 검색 구현 실습, 로컬 LLM 설치/활용<br>호출 함수 이해</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-4-1">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>텍스트 정규화 전략 및 Chunking 기술</h4></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>VectorDB 구축 및 Retriever 활용 실습</h4></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>LangChain 기반 RAG 전처리 파이프라인 완성</h4></div></div>
+        </div>
+
+        <div class="day-content" id="day-4-2">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>LangGraph 워크플로우 설계 및 Self-Reflective RAG 구현</h4><p>할루시네이션 자가 검증 챗봇 구현</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>Adaptive RAG & Modular RAG</h4><p>Adaptive RAG와 Reranker를 활용한 검색 최적화 기법<br>Modular RAG 구조로의 리팩토링 실습</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-4-3">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>[AI 서비스 구축 프로젝트]</h4><p>주제 선정 및 데이터 수집 계획 수립<br>데이터 전처리 파이프라인 및 Vector DB 설계</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>[AI 서비스 구축 프로젝트] 계속</h4><p>Langchain/LangGraph를 활용한 메인 에이전트 로직 구현<br>서비스 기능 명세서 작성 및 멘토링 피드백</p></div></div>
+        </div>
+
+        <div class="day-content" id="day-4-4">
+          <div class="time-block"><div class="time-label">1교시<br>08:30</div><div class="time-content"><h4>[AI 서비스 구축 프로젝트] - 고도화</h4><p>웹 인터페이스 최적화 및 기능 통합<br>답변 품질 고도화</p></div></div>
+          <div class="time-block lunch"><span>🍽️ 중식 11:20 ~ 12:40</span></div>
+          <div class="time-block"><div class="time-label">5교시<br>13:40</div><div class="time-content"><h4>프로젝트 시연 및 성과 발표</h4></div></div>
+          <div class="time-block"><div class="time-label">7교시<br>15:40</div><div class="time-content"><h4>개발 과정 회고 및 개선 사항 도출</h4></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 수강신청 방법 -->
+  <div class="section" id="howto">
+    <div class="section-header">
+      <div class="section-icon" style="background: rgba(52,211,153,0.12);">✅</div>
+      <div>
+        <div class="section-title">수강신청 방법</div>
+        <div class="section-desc">엘리스 플랫폼 (<a href="https://samsungcnt-edu.elice.io" target="_blank" style="color: var(--accent-blue); text-decoration: none;">samsungcnt-edu.elice.io</a>)</div>
+      </div>
+    </div>
+
+    <div class="course-detail" style="padding: 16px;">
+      <div class="steps">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>엘리스 플랫폼 접속</strong><br><a href="https://samsungcnt-edu.elice.io" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-family: var(--mono-font, monospace);">samsungcnt-edu.elice.io</a> 접속 후 로그인</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>로그인</strong><br>이메일: <strong>Knox 이메일 (@samsung.com)</strong><br>비밀번호: <code>samsung123!</code><br><span style="color: var(--accent-red); font-size: 11px;">※ 기 가입자는 임시비밀번호 로그인 불가 → 비밀번호 찾기 이용</span></div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>수강신청</strong><br>탐색 → 공지사항 → "수강신청 안내" 접속 → 본인 차수 "수강신청" 클릭</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-text"><strong>입과 안내</strong><br>일정표에 기재된 교육 입과 안내일에 사내 메일로 안내</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 평가 방안 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background: rgba(244,114,182,0.12);">📋</div>
+      <div>
+        <div class="section-title">평가 방안</div>
+      </div>
+    </div>
+    <div class="info-grid">
+      <div class="info-item full">
+        <div class="info-label">평가 기준</div>
+        <div class="info-value small">각 과정별 정량적 테스트 및 과제 평가 + 정성적 주강사, 보조강사 피드백 평가 판단</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 문의사항 -->
+  <div class="contact-card">
+    <div class="contact-title">문의사항</div>
+    <div class="contact-row" style="flex-direction: column; align-items: flex-start; gap: 2px;">
+      <span style="font-size: 12px; color: var(--text-muted);">교육 기획</span>
+      <span>데이터운영그룹 고승세 프로 <span style="font-size: 11px; color: var(--text-muted);">(* Knox Teams)</span></span>
+    </div>
+    <div style="height: 10px;"></div>
+    <div class="contact-row" style="flex-direction: column; align-items: flex-start; gap: 2px;">
+      <span style="font-size: 12px; color: var(--text-muted);">교육 운영 및 기타사항</span>
+      <span>엘리스그룹 황정인 매니저 (<a href="mailto:jungin@elicer.com">jungin@elicer.com</a>)</span>
+    </div>
+  </div>
+
+
+  <!-- Comments Section -->
+  <div class="section" id="comments">
+    <div class="section-header">
+      <div class="section-icon" style="background: rgba(94,201,117,0.12);">💬</div>
+      <div>
+        <div class="section-title">교육생 의견 나누기</div>
+        <div class="section-desc">자유롭게 댓글을 남겨보세요</div>
+      </div>
+    </div>
+    <div id="commentList"></div>
+    <div class="comment-form">
+      <input type="text" id="commentAuthor" placeholder="작성자">
+      <textarea id="commentContent" placeholder="내용을 입력하세요"></textarea>
+      <button onclick="addComment()">댓글 남기기</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  
+  <!-- AI Builders Map Section removed -->
+<div class="footer">
+    삼성물산 건설부문 · DxP사업부 AI혁신본부 AI혁신기획그룹<br>
+    2026 AI Academy 전문교육 안내 페이지<br>
+    <span style="color: var(--text-muted);">교육 파트너: 엘리스그룹</span>
+  </div>
+
+</div>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Toggle schedule accordion
+function toggleSchedule(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+// Switch course tab
+function switchCourse(idx) {
+  document.querySelectorAll('#courseTabs .tab-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === idx);
+  });
+  for (let i = 0; i < 5; i++) {
+    const panel = document.getElementById('course-' + i);
+    if (panel) panel.classList.toggle('active', i === idx);
+  }
+}
+
+// Switch day tab within a course
+function switchDay(courseIdx, dayIdx) {
+  const tabs = document.querySelectorAll('#dayTabs-' + courseIdx + ' .day-tab');
+  tabs.forEach((tab, i) => tab.classList.toggle('active', i === dayIdx));
+  
+  // Find all day-content for this course
+  let d = 0;
+  while (true) {
+    const el = document.getElementById('day-' + courseIdx + '-' + d);
+    if (!el) break;
+    el.classList.toggle('active', d === dayIdx);
+    d++;
+  }
+}
+
+// Switch day tab within a schedule card (monthly schedule)
+function switchScheduleDay(scheduleId, dayIdx) {
+  const card = document.getElementById(scheduleId);
+  if (!card) return;
+  // Toggle active state on tabs
+  const tabs = card.querySelectorAll('.day-tabs .day-tab');
+  tabs.forEach((tab, i) => {
+    tab.classList.toggle('active', i === dayIdx);
+  });
+  // Toggle active state on day contents
+  const contents = card.querySelectorAll('.course-detail > .day-content');
+  contents.forEach((content, i) => {
+    content.classList.toggle('active', i === dayIdx);
+  });
+}
+
+// Scroll to section
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// Nav pill active state on scroll
+const sections = ['hero', 'april-info', 'schedule', 'howto'];
+const navPills = document.querySelectorAll('.nav-pill');
+
+window.addEventListener('scroll', () => {
+  // Scroll to top button
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  scrollBtn.classList.toggle('show', window.scrollY > 400);
+  
+  // Active nav pill
+  let current = 0;
+  sections.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= 80) {
+      current = i;
+    }
+  });
+  navPills.forEach((pill, i) => pill.classList.toggle('active', i === current));
+});
+
+</script>
+
+
+<!-- Comments script -->
+<script>
+function loadComments() {
+  const json = localStorage.getItem('ai-academy-comments') || '[]';
+  try { return JSON.parse(json); } catch { return []; }
+}
+function saveComments(comments) {
+  localStorage.setItem('ai-academy-comments', JSON.stringify(comments));
+}
+function renderComments() {
+  const listEl = document.getElementById('commentList');
+  if (!listEl) return;
+  listEl.innerHTML = '';
+  const comments = loadComments();
+  comments.forEach((c, idx) => {
+    const item = document.createElement('div');
+    item.className = 'comment-item';
+    // Header with author, date and delete button
+    const header = document.createElement('div');
+    header.className = 'comment-header';
+    const authorEl = document.createElement('span');
+    authorEl.className = 'comment-author';
+    authorEl.textContent = c.author || '익명';
+    const dateEl = document.createElement('span');
+    dateEl.className = 'comment-date';
+    dateEl.textContent = c.date;
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-btn';
+    delBtn.textContent = '삭제';
+    delBtn.onclick = () => deleteComment(idx);
+    header.appendChild(authorEl);
+    header.appendChild(dateEl);
+    header.appendChild(delBtn);
+    item.appendChild(header);
+    // Comment text
+    const textEl = document.createElement('div');
+    textEl.className = 'comment-text';
+    textEl.textContent = c.text;
+    item.appendChild(textEl);
+    listEl.appendChild(item);
+  });
+}
+function addComment() {
+  const authorInput = document.getElementById('commentAuthor');
+  const contentInput = document.getElementById('commentContent');
+  if (!contentInput) return;
+  const text = contentInput.value.trim();
+  if (!text) return;
+  const author = authorInput && authorInput.value.trim() ? authorInput.value.trim() : '익명';
+  const comments = loadComments();
+  const date = new Date().toLocaleString('ko-KR', { year:'numeric', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' });
+  comments.push({ date, author, text });
+  saveComments(comments);
+  if (authorInput) authorInput.value = '';
+  contentInput.value = '';
+  renderComments();
+}
+
+function deleteComment(idx) {
+  const pwd = prompt('삭제 비밀번호를 입력하세요');
+  if (pwd !== 'gurtls1100!') {
+    alert('비밀번호가 올바르지 않습니다.');
+    return;
+  }
+  const comments = loadComments();
+  comments.splice(idx, 1);
+  saveComments(comments);
+  renderComments();
+}
+window.addEventListener('DOMContentLoaded', () => {
+  renderComments();
+});
+</script>
+
+<!-- Map scripts removed -->
+</body>
+</html>
